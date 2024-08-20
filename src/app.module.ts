@@ -16,6 +16,7 @@ import { DataPrismaService } from './data/services/data-prisma.service';
 import { OperatorController } from './controllers/operator.controller';
 import { SystemServiceController } from './controllers/system-service.controller';
 import { ParseBoolOrUndefinedPipe } from './pipes/parse-bool-undefined.pipe';
+import { initAppData } from './config/init-data';
 
 const controllers = [
   ConversationController,
@@ -66,51 +67,10 @@ export class AppModule implements OnModuleInit {
   ) { }
 
   onModuleInit() {
-    this.userService.users().then(users => {
-      if (users.length === 0) {
-        this.userService.addUsers([
-          {
-            username: 'pinkop',
-            password: 'password',
-            name: 'Pinko Palinko'
-          },
-          {
-            username: 'user',
-            password: 'password',
-            name: 'User'
-          }
-        ])
-      }
-    });
-
-    this.operatorService.operators().then(operators => {
-      if (operators.length === 0) {
-        this.operatorService.addOperators([
-          {
-            username: 'operator1',
-            password: 'password',
-            name: 'Operator 1'
-          },
-          {
-            username: 'operator2',
-            password: 'password',
-            name: 'Operator 2'
-          }
-        ])
-      }
-    });
-
-    this.systemServiceService.systemServices().then(systemServices => {
-      if (systemServices.length === 0) {
-        this.systemServiceService.addSystemServices([
-          {
-            name: 'Service 1'
-          },
-          {
-            name: 'Service 2',
-          }
-        ])
-      }
-    });
+    initAppData({
+      userService: this.userService,
+      operatorService: this.operatorService,
+      systemServiceService: this.systemServiceService
+    })
   }
 }

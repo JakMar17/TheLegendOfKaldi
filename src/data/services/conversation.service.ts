@@ -10,12 +10,12 @@ export class ConversationService extends DataPrismaService<ConversationService> 
 
 
     /**
-     * Retrieves conversations for a given user.
+     * Retrieves conversations for a specific user.
      * 
      * @param userId - The ID of the user.
      * @returns A promise that resolves to an array of conversations.
      */
-    async getUsersConversations(userId?: number) {
+    async getUsersConversations(userId: number) {
         return this.prismaService.conversation.findMany({
             include: {
                 operator: true,
@@ -26,6 +26,15 @@ export class ConversationService extends DataPrismaService<ConversationService> 
         });
     }
 
+    /**
+     * Retrieves conversations based on the assigned parameter. Used for operators.
+     * If assigned is true, retrieves conversations with assigned operators.
+     * If assigned is false, retrieves conversations without assigned operators.
+     * If assigned is not provided, retrieves all conversations.
+     * 
+     * @param assigned - Optional parameter to filter conversations based on assignment status.
+     * @returns A promise that resolves to an array of conversations.
+     */
     async getConversations(assigned?: boolean) {
         const where: any = {};
 
@@ -50,33 +59,25 @@ export class ConversationService extends DataPrismaService<ConversationService> 
 
     }
 
-    async getOperatorConversations(operatorId?: number, assigned?: boolean) {
-        return this.prismaService.conversation.findMany({
-            include: {
-                operator: true,
-                user: true,
-                systemService: true
-            },
-            where: operatorId ? { operator: { is: { id: operatorId } } } : {}
-        })
-    }
+    /**
+     * Assigns a conversation to an operator.
+     * 
+     * @param conversationId - The ID of the conversation to be assigned.
+     * @param operatorId - The ID of the operator to assign the conversation to.
+     * @returns A promise that resolves to the updated conversation object.
+     */
+    async assigneConversationToOperator(conversationId: number, operatorId: number) {
 
-    async getNotAssignedConversations() {
-        return this.prismaService.conversation.findMany({
-            include: {
-                operator: true,
-                user: true,
-                systemService: true
-            },
+        const conversation = await this.prismaService.conversation.findUnique({
             where: {
-                operator: {
-                    is: null
-                }
+                id: conversationId
             }
         });
-    }
 
-    async assigneConversationToOperator(conversationId: number, operatorId: number) {
+        if(conversation.operatorId !== null) {
+            throw new Error('Conversation already assigned');
+        }
+
         return this.prismaService.conversation.update({
             include: {
                 operator: true,
@@ -96,6 +97,12 @@ export class ConversationService extends DataPrismaService<ConversationService> 
         });
     }
 
+    /**
+     * Retrieves a conversation by its ID.
+     *
+     * @param conversationId - The ID of the conversation to retrieve.
+     * @returns A Promise that resolves to the conversation object, including related entities such as operator, user, system service, and messages.
+     */
     async getConversation(conversationId: number) {
         return this.prismaService.conversation.findUnique({
             include: {
@@ -118,6 +125,13 @@ export class ConversationService extends DataPrismaService<ConversationService> 
         });
     }
 
+    /**
+     * Creates a conversation.
+     * 
+     * @param conversation - The conversation object.
+     * @param user - The user object.
+     * @returns A promise that resolves to the created conversation.
+     */
     async createConversation(conversation: Conversation, user: User) {
         return this.prismaService.conversation.create({
             include: {

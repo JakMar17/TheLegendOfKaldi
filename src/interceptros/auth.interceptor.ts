@@ -9,6 +9,13 @@ export class AuthInterceptor implements NestInterceptor {
     constructor(private userRequestService: UserRequestService) {}
 
 
+    /**
+     * Intercepts incoming requests and performs authentication and authorization checks.
+     * 
+     * @param context - The execution context of the request.
+     * @param next - The next call handler in the chain.
+     * @returns An observable or promise of an observable that represents the result of the interception.
+     */
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
         const req = context.switchToHttp().getRequest();
         const authBase64 = req.headers['authorization'].split(' ')[1];
