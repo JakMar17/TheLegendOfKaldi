@@ -18,8 +18,18 @@ export class ConversationService extends DataPrismaService<ConversationService> 
     async getUsersConversations(userId: number) {
         return this.prismaService.conversation.findMany({
             include: {
-                operator: true,
-                user: true,
+                operator: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    },
+                },
                 systemService: true
             },
             where: { user: { is: { id: userId } } }
@@ -38,7 +48,7 @@ export class ConversationService extends DataPrismaService<ConversationService> 
     async getConversations(assigned?: boolean) {
         const where: any = {};
 
-        if(assigned === true) {
+        if (assigned === true) {
             where.operator = {
                 isNot: null
             };
@@ -50,8 +60,18 @@ export class ConversationService extends DataPrismaService<ConversationService> 
 
         return this.prismaService.conversation.findMany({
             include: {
-                operator: true,
-                user: true,
+                operator: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    },
+                },
                 systemService: true
             },
             where
@@ -74,14 +94,24 @@ export class ConversationService extends DataPrismaService<ConversationService> 
             }
         });
 
-        if(conversation.operatorId !== null) {
+        if (conversation.operatorId !== null) {
             throw new Error('Conversation already assigned');
         }
 
         return this.prismaService.conversation.update({
             include: {
-                operator: true,
-                user: true,
+                 operator: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    },
+                },
                 systemService: true
             },
             where: {
@@ -106,16 +136,36 @@ export class ConversationService extends DataPrismaService<ConversationService> 
     async getConversation(conversationId: number) {
         return this.prismaService.conversation.findUnique({
             include: {
-                operator: true,
-                user: true,
+                operator: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    },
+                },
                 systemService: true,
                 messages: {
                     orderBy: {
                         createdAt: 'desc'
                     },
                     include: {
-                        operator: true,
-                        user: true
+                        operator: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        },
+                        user: {
+                            select: {
+                                id: true,
+                                name: true
+                            },
+                        },
                     }
                 }
             },
@@ -135,8 +185,18 @@ export class ConversationService extends DataPrismaService<ConversationService> 
     async createConversation(conversation: Conversation, user: User) {
         return this.prismaService.conversation.create({
             include: {
-                operator: true,
-                user: true,
+                operator: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
+                user: {
+                    select: {
+                        id: true,
+                        name: true
+                    },
+                },
                 systemService: true
             },
             data: {
