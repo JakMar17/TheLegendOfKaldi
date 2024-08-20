@@ -1,0 +1,358 @@
+{
+	"info": {
+		"_postman_id": "0411d2d7-67df-4290-8f42-2cd212cf783f",
+		"name": "Endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13034788"
+	},
+	"item": [
+		{
+			"name": "Operator endpoints",
+			"item": [
+				{
+					"name": "List all conversations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "role",
+								"value": "operator",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/operator/conversations?assigned=true",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"operator",
+								"conversations"
+							],
+							"query": [
+								{
+									"key": "mine",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "assigned",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assigne conversation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "role",
+								"value": "operator",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/operator/conversations/1/assign",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"operator",
+								"conversations",
+								"1",
+								"assign"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new message in conversation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "role",
+								"value": "operator",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Hello world, this is answer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/conversations/1/message",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"conversations",
+								"1",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get conversation details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "role",
+								"value": "operator",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/conversations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"conversations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "password",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "operator1",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "List all system services",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "role",
+								"value": "user",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/system-services",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"system-services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List my conversations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "role",
+								"value": "user",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/conversations",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"conversations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new conversation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "role",
+								"value": "user",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"systemService\": {\r\n        \"id\": 2\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/conversations",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"conversations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new message in conversation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "role",
+								"value": "user",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Hello world, this is my second message\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/conversations/1/message",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"conversations",
+								"1",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get conversation details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "role",
+								"value": "user",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/conversations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"conversations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "password",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "pinkop",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
